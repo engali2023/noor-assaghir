@@ -2,10 +2,10 @@ const CACHE_NAME = 'noor-assaghir-v1';
 const urlsToCache = [
     'index.html',
     'manifest.json',
-    'public/icons/icon-192.png',
-    'public/icons/icon-512.png',
-    'public/icons/icon-maskable-512.png',
-    'public/icons/icon-180.png'
+    'icons/icon-192.png',
+    'icons/icon-512.png',
+    'icons/icon-maskable-512.png',
+    'icons/icon-180.png'
 ];
 
 // Install
