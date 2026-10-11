@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نور الصغير - منصة تعليمية إسلامية للأطفال</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4FC3F7">
+    <link rel="apple-touch-icon" href="public/icons/icon-180.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="نور الصغير">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sky-blue: #4FC3F7;
+            --mint-green: #66BB6A;
+            --warm-yellow: #FFD54F;
+            --light-purple: #AB47BC;
+            --cream-white: #FFFDE7;
+            --dark-text: #2D3748;
+            --soft-gray: #F5F5F5;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--cream-white);
+            color: var(--dark-text);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            padding: 24px;
+            border-radius: 0 0 40px 40px;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .header.sky { background: var(--sky-blue); }
+        .header.mint { background: var(--mint-green); }
+        .header.purple { background: var(--light-purple); }
+        .header.yellow { background: var(--warm-yellow); }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 0.875rem;
+            margin-top: 4px;
+        }
+
+        .back-link {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.875rem;
+            display: inline-block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .card-border {
+            border-right: 4px solid;
+        }
+
+        .card-border.sky { border-color: var(--sky-blue); }
+        .card-border.mint { border-color: var(--mint-green); }
+        .card-border.purple { border-color: var(--light-purple); }
+        .card-border.yellow { border-color: var(--warm-yellow); }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .card-icon.sky { background: var(--sky-blue); }
+        .card-icon.mint { background: var(--mint-green); }
+        .card-icon.purple { background: var(--light-purple); }
+        .card-icon.yellow { background: var(--warm-yellow); }
+
+        .card-text {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-desc {
+            color: rgba(45,55,72,0.6);
+            font-size: 0.875rem;
+        }
+
+        .card-arrow {
+            color: rgba(45,55,72,0.3);
+            font-size: 1.5rem;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #eee;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            color: rgba(45,55,72,0.4);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: var(--sky-blue);
+        }
+
+        .nav-item span {
+            font-size: 1.5rem;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: linear-gradient(to bottom, var(--sky-blue), var(--cream-white));
+        }
+
+        .welcome-content {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .welcome-emoji {
+            font-size: 5rem;
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .welcome-subtitle {
+            color: rgba(45,55,72,0.7);
+            font-size: 1.125rem;
+            margin-bottom: 32px;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .welcome-card label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 1.125rem;
+        }
+
+        .welcome-card input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid rgba(79,195,247,0.3);
+            font-size: 1.125rem;
+            text-align: center;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+
+        .welcome-card input:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn.sky { background: var(--sky-blue); color: white; }
+        .btn.mint { background: var(--mint-green); color: white; }
+        .btn.purple { background: var(--light-purple); color: white; }
+        .btn.yellow { background: var(--warm-yellow); color: white; }
+
+        /* Story Pages */
+        .story-page {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .story-emoji {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .story-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        .story-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .dot.active {
+            background: var(--sky-blue);
+        }
+
+        /* Questions */
+        .question-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+        }
+
+        .question-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .option-btn {
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .option-btn:hover {
+            border-color: var(--sky-blue);
+        }
+
+        .option-btn.correct {
+            border-color: var(--mint-green);
+            background: rgba(102,187,106,0.1);
+            color: var(--mint-green);
+        }
+
+        .option-btn.wrong {
+            border-color: #ef5350;
+            background: rgba(239,83,80,0.05);
+            color: #ef5350;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 999px;
+            height: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.sky { background: var(--sky-blue); }
+        .progress-fill.mint { background: var(--mint-green); }
+        .progress-fill.purple { background: var(--light-purple); }
+        .progress-fill.yellow { background: var(--warm-yellow); }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .stat-emoji {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            color: rgba(45,55,72,0.6);
+            font-size: 0.875rem;
+        }
+
+        /* Badges */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .badge-card {
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .badge-card.earned {
+            background: rgba(255,213,79,0.2);
+        }
+
+        .badge-card.locked {
+            background: #f5f5f5;
+            opacity: 0.5;
+        }
+
+        .badge-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .badge-name {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .badge-desc {
+            color: rgba(45,55,72,0.6);
+            font-size: 0.75rem;
+        }
+
+        /* Weekly Progress */
+        .weekly-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .day-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .day-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .day-circle.completed {
+            background: var(--mint-green);
+            color: white;
+        }
+
+        .day-circle.pending {
+            background: #e0e0e0;
+        }
+
+        .day-label {
+            font-size: 0.75rem;
+            color: rgba(45,55,72,0.6);
+        }
+
+        /* Prayer Steps */
+        .prayer-step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            background: #f5f5f5;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .prayer-step.active {
+            background: rgba(171,71,188,0.1);
+            border: 2px solid var(--light-purple);
+        }
+
+        .prayer-step.selected {
+            border: 2px solid var(--mint-green);
+            background: rgba(102,187,106,0.1);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-emoji {
+            font-size: 1.5rem;
+        }
+
+        .step-title {
+            font-weight: 700;
+        }
+
+        .step-desc {
+            color: rgba(45,55,72,0.6);
+            font-size: 0.875rem;
+        }
+
+        /* Quran */
+        .surah-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .surah-card:hover {
+            transform: scale(1.02);
+        }
+
+        .arabic-text {
+            font-size: 1.5rem;
+            line-height: 2;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .translation {
+            text-align: center;
+            color: rgba(45,55,72,0.8);
+            font-size: 1.125rem;
+        }
+
+        /* Word of Day */
+        .word-day {
+            background: linear-gradient(to left, rgba(255,213,79,0.2), rgba(171,71,188,0.2));
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .word-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .word-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--light-purple);
+            margin-bottom: 8px;
+        }
+
+        .word-meaning {
+            color: rgba(45,55,72,0.7);
+            margin-bottom: 8px;
+        }
+
+        .word-example {
+            color: rgba(45,55,72,0.5);
+            font-size: 0.875rem;
+        }
+
+        /* Result */
+        .result-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .result-emoji {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .result-stars {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .result-stars span {
+            font-size: 1.5rem;
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Score display */
+        .score-display {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .score-display span {
+            color: var(--warm-yellow);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="welcome-screen">
+        <div class="welcome-content">
+            <div class="welcome-emoji">🌟</div>
+            <h1 class="welcome-title">نور الصغير</h1>
+            <p class="welcome-subtitle">مرحباً بك في عالم التعلم الممتع!</p>
+            <div class="welcome-card">
+                <label>ما اسمك يا بطل؟</label>
+                <input type="text" id="childNameInput" placeholder="اكتب اسمك هنا...">
+                <button class="btn sky" id="startBtn" disabled>هيا بنا! 🚀</button>
+            </div>
+            <p style="margin-top: 24px; color: rgba(45,55,72,0.5); font-size: 0.875rem;">
+                منصة تعليمية إسلامية آمنة للأطفال
+            </p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <!-- Home Page -->
+        <div id="homePage">
+            <div class="header sky">
+                <h1 id="greeting">مرحباً! 👋</h1>
+                <p>ماذا تريد أن نفعل اليوم؟</p>
+            </div>
+            <div class="container">
+                <div class="card card-border sky" onclick="showPage('stories')">
+                    <div class="card-content">
+                        <div class="card-icon sky">📖</div>
+                        <div class="card-text">
+                            <div class="card-title">قصص الأنبياء</div>
+                            <div class="card-desc">تعلّم قصص الأنبياء بأسلوب ممتع وتفاعلي</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+                <div class="card card-border mint" onclick="showPage('games')">
+                    <div class="card-content">
+                        <div class="card-icon mint">🎮</div>
+                        <div class="card-text">
+                            <div class="card-title">ألعاب تعليمية</div>
+                            <div class="card-desc">العب وتعلّم مع ألعابنا الممتعة</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+                <div class="card card-border purple" onclick="showPage('prayer')">
+                    <div class="card-content">
+                        <div class="card-icon purple">🕌</div>
+                        <div class="card-text">
+                            <div class="card-title">تعلّم الصلاة</div>
+                            <div class="card-desc">تعلّم خطوات الصلاة بأسلوب بسيط وواضح</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+                <div class="card card-border yellow" onclick="showPage('quran')">
+                    <div class="card-content">
+                        <div class="card-icon yellow">📚</div>
+                        <div class="card-text">
+                            <div class="card-title">مكتبة القرآن</div>
+                            <div class="card-desc">استمع وتعلّم آيات القرآن الكريم</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+                <div class="card card-border yellow" onclick="showPage('achievements')">
+                    <div class="card-content">
+                        <div class="card-icon yellow">🏆</div>
+                        <div class="card-text">
+                            <div class="card-title">لوحة الإنجازات</div>
+                            <div class="card-desc">شاهد إنجازاتك ونجومك</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stories Page -->
+        <div id="storiesPage" class="hidden">
+            <div class="header sky">
+                <span class="back-link" onclick="showPage('home')">→ العودة</span>
+                <h1>📖 قصص الأنبياء</h1>
+                <p>اختر قصة واستمتع بالتعلم</p>
+            </div>
+            <div class="container" id="storiesList"></div>
+        </div>
+
+        <!-- Story View -->
+        <div id="storyView" class="hidden">
+            <div class="header sky" id="storyHeader">
+                <span class="back-link" onclick="showPage('stories')">→ العودة للقصص</span>
+                <h1 id="storyTitle"></h1>
+            </div>
+            <div class="container">
+                <div class="story-page">
+                    <div class="story-emoji" id="storyEmoji">🌟</div>
+                    <p class="story-text" id="storyText"></p>
+                </div>
+                <div class="story-nav">
+                    <button class="btn" style="background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" id="prevBtn">السابق</button>
+                    <div class="story-dots" id="storyDots"></div>
+                    <button class="btn sky" id="nextBtn">التالي</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions Page -->
+        <div id="questionsPage" class="hidden">
+            <div class="header mint">
+                <span class="back-link" onclick="showPage('stories')">→ العودة للقصة</span>
+                <h1>❓ أسئلة القصة</h1>
+                <p>اختبر معلوماتك!</p>
+            </div>
+            <div class="container" id="questionsList"></div>
+        </div>
+
+        <!-- Games Page -->
+        <div id="gamesPage" class="hidden">
+            <div class="header mint">
+                <span class="back-link" onclick="showPage('home')">→ العودة</span>
+                <h1>🎮 ألعاب تعليمية</h1>
+                <p>العب وتعلّم معنا!</p>
+            </div>
+            <div class="container" id="gamesList"></div>
+        </div>
+
+        <!-- Game View -->
+        <div id="gameView" class="hidden">
+            <div class="header mint" id="gameHeader">
+                <span class="back-link" onclick="showPage('games')">→ العودة للألعاب</span>
+                <h1 id="gameTitle"></h1>
+                <p id="gameProgress"></p>
+            </div>
+            <div class="container">
+                <div class="progress-bar">
+                    <div class="progress-fill mint" id="gameProgressBar"></div>
+                </div>
+                <div class="question-card">
+                    <h3 class="question-title" id="gameQuestion"></h3>
+                    <div class="options-grid" id="gameOptions"></div>
+                </div>
+                <div class="score-display">
+                    النقاط: <span id="gameScore">⭐ 0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Result -->
+        <div id="gameResult" class="hidden">
+            <div class="header mint">
+                <span class="back-link" onclick="showPage('games')">→ العودة للألعاب</span>
+                <h1>🎉 النتيجة</h1>
+            </div>
+            <div class="container">
+                <div class="result-card">
+                    <div class="result-emoji" id="resultEmoji">🏆</div>
+                    <h2 class="result-title" id="resultTitle"></h2>
+                    <p id="resultText"></p>
+                    <div class="result-stars" id="resultStars"></div>
+                    <button class="btn mint" onclick="showPage('games')">العب مرة أخرى</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prayer Page -->
+        <div id="prayerPage" class="hidden">
+            <div class="header purple">
+                <span class="back-link" onclick="showPage('home')">→ العودة</span>
+                <h1>🕌 تعلّم الصلاة</h1>
+                <p>تعلّم خطوات الصلاة بالترتيب</p>
+            </div>
+            <div class="container" id="prayerContent"></div>
+        </div>
+
+        <!-- Quran Page -->
+        <div id="quranPage" class="hidden">
+            <div class="header yellow">
+                <span class="back-link" onclick="showPage('home')">→ العودة</span>
+                <h1>📚 مكتبة القرآن</h1>
+                <p>تعلّم واستمع للقرآن الكريم</p>
+            </div>
+            <div class="container" id="quranContent"></div>
+        </div>
+
+        <!-- Surah View -->
+        <div id="surahView" class="hidden">
+            <div class="header yellow" id="surahHeader">
+                <span class="back-link" onclick="showPage('quran')">→ العودة</span>
+                <h1 id="surahTitle"></h1>
+            </div>
+            <div class="container">
+                <div class="story-page">
+                    <p class="arabic-text" id="surahArabic"></p>
+                </div>
+                <div class="word-day">
+                    <h3 style="font-weight: 700; margin-bottom: 8px;">المعنى:</h3>
+                    <p id="surahTranslation" style="color: rgba(45,55,72,0.8); font-size: 1.125rem;"></p>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="card" style="text-align: center;">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 8px;">🎨</span>
+                        <span style="font-weight: 500;">رسم وتلوين</span>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 8px;">🔊</span>
+                        <span style="font-weight: 500;">استمع</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements Page -->
+        <div id="achievementsPage" class="hidden">
+            <div class="header yellow">
+                <span class="back-link" onclick="showPage('home')">→ العودة</span>
+                <h1>🏆 لوحة الإنجازات</h1>
+                <p>شاهد تقدمك وإنجازاتك</p>
+            </div>
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-emoji">⭐</div>
+                        <div class="stat-value">150</div>
+                        <div class="stat-label">نقطة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji">🏅</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">شارات</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji">📖</div>
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">قصص</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="font-weight: 700; margin-bottom: 16px;">📅 نشاط الأسبوع</h3>
+                    <div class="weekly-progress">
+                        <div class="day-item">
+                            <div class="day-circle completed">✓</div>
+                            <span class="day-label">السبت</span>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-circle completed">✓</div>
+                            <span class="day-label">الأحد</span>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-circle completed">✓</div>
+                            <span class="day-label">الاثنين</span>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-circle pending"></div>
+                            <span class="day-label">الثلاثاء</span>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-circle pending"></div>
+                            <span class="day-label">الأربعاء</span>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-circle pending"></div>
+                            <span class="day-label">الخميس</span>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-circle pending"></div>
+                            <span class="day-label">الجمعة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="font-weight: 700; margin-bottom: 16px;">🏅 الشارات</h3>
+                    <div class="badges-grid">
+                        <div class="badge-card earned">
+                            <div class="badge-emoji">📖</div>
+                            <div class="badge-name">قارئ صغير</div>
+                            <div class="badge-desc">أكمل 3 قصص</div>
+                        </div>
+                        <div class="badge-card earned">
+                            <div class="badge-emoji">🎮</div>
+                            <div class="badge-name">لاعب ذكي</div>
+                            <div class="badge-desc">أكمل 5 ألعاب</div>
+                        </div>
+                        <div class="badge-card locked">
+                            <div class="badge-emoji">📚</div>
+                            <div class="badge-name">حافظ القرآن</div>
+                            <div class="badge-desc">احفظ 5 سور</div>
+                        </div>
+                        <div class="badge-card earned">
+                            <div class="badge-emoji">🕌</div>
+                            <div class="badge-name">مصلي ممتاز</div>
+                            <div class="badge-desc">أكمل تمرين الصلاة</div>
+                        </div>
+                        <div class="badge-card locked">
+                            <div class="badge-emoji">⭐</div>
+                            <div class="badge-name">نجم الأسبوع</div>
+                            <div class="badge-desc">نشاط 7 أيام متتالية</div>
+                        </div>
+                        <div class="badge-card locked">
+                            <div class="badge-emoji">🏆</div>
+                            <div class="badge-name">بطل الأخلاق</div>
+                            <div class="badge-desc">أكمل جميع الأنشطة</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="text-align: center;">
+                    <h3 style="font-weight: 700; margin-bottom: 16px;">🌱 شجرة النمو</h3>
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🌳</div>
+                    <p style="color: rgba(45,55,72,0.6);">شجرة تنمو مع كل نشاط تكمله!</p>
+                    <div class="progress-bar" style="margin-top: 16px;">
+                        <div class="progress-fill mint" style="width: 40%;"></div>
+                    </div>
+                    <p style="color: rgba(45,55,72,0.6); font-size: 0.875rem; margin-top: 8px;">40% من الهدف الأسبوعي</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav hidden" id="bottomNav">
+        <div class="nav-item active" onclick="showPage('home')">
+            <span>🏠</span>
+            <span>الرئيسية</span>
+        </div>
+        <div class="nav-item" onclick="showPage('stories')">
+            <span>📖</span>
+            <span>القصص</span>
+        </div>
+        <div class="nav-item" onclick="showPage('games')">
+            <span>🎮</span>
+            <span>الألعاب</span>
+        </div>
+        <div class="nav-item" onclick="showPage('achievements')">
+            <span>🏆</span>
+            <span>إنجازاتي</span>
+        </div>
+    </nav>
+
+    <script>
+        // Data
+        const stories = [
+            {
+                id: 1,
+                title: "قصة نوح عليه السلام",
+                prophet: "نوح",
+                emoji: "🚢",
+                color: "sky",
+                pages: [
+                    { text: "في قديم الزمان، كان هناك نبي اسمه نوح. أرسله الله ليعلّم الناس طريق الحق.", emoji: "🌟" },
+                    { text: "نوح كان صبوراً وشجاعاً. آمن بالله وعمل الخير دائماً.", emoji: "💪" },
+                    { text: "ساعد نوح كثيراً من الناس وأرشدهم إلى طريق الله.", emoji: "🤝" },
+                    { text: "في النهاية، كافأ الله نوح على صبره وإيمانه. كن مثل نوح يا بطل!", emoji: "⭐" }
+                ],
+                questions: [
+                    { question: "من هو بطل قصتنا؟", options: ["نوح", "محمد", "عيسى", "موسى"], correct: 0 },
+                    { question: "ماذا علّمنا الله أن نكون؟", options: ["صبورين", "كسالى", "غاضبين", "أنانيين"], correct: 0 },
+                    { question: "ماذا يكافئ الله المؤمنين الصادقين؟", options: ["النعم والخير", "لا شيء", "العقاب", "النسيان"], correct: 0 }
+                ]
+            },
+            {
+                id: 2,
+                title: "قصة إبراهيم عليه السلام",
+                prophet: "إبراهيم",
+                emoji: "🔥",
+                color: "yellow",
+                pages: [
+                    { text: "في قديم الزمان، كان هناك نبي اسمه إبراهيم. أرسله الله ليعلّم الناس طريق الحق.", emoji: "🌟" },
+                    { text: "إبراهيم كان صبوراً وشجاعاً. آمن بالله وعمل الخير دائماً.", emoji: "💪" },
+                    { text: "ساعد إبراهيم كثيراً من الناس وأرشدهم إلى طريق الله.", emoji: "🤝" },
+                    { text: "في النهاية، كافأ الله إبراهيم على صبره وإيمانه. كن مثل إبراهيم يا بطل!", emoji: "⭐" }
+                ],
+                questions: [
+                    { question: "من هو بطل قصتنا؟", options: ["إبراهيم", "محمد", "عيسى", "موسى"], correct: 0 },
+                    { question: "ماذا علّمنا الله أن نكون؟", options: ["صبورين", "كسالى", "غاضبين", "أنانيين"], correct: 0 },
+                    { question: "ماذا يكافئ الله المؤمنين الصادقين؟", options: ["النعم والخير", "لا شيء", "العقاب", "النسيان"], correct: 0 }
+                ]
+            },
+            {
+                id: 3,
+                title: "قصة يوسف عليه السلام",
+                prophet: "يوسف",
+                emoji: "👑",
+                color: "purple",
+                pages: [
+                    { text: "في قديم الزمان، كان هناك نبي اسمه يوسف. أرسله الله ليعلّم الناس طريق الحق.", emoji: "🌟" },
+                    { text: "يوسف كان صبوراً وشجاعاً. آمن بالله وعمل الخير دائماً.", emoji: "💪" },
+                    { text: "ساعد يوسف كثيراً من الناس وأرشدهم إلى طريق الله.", emoji: "🤝" },
+                    { text: "في النهاية، كافأ الله يوسف على صبره وإيمانه. كن مثل يوسف يا بطل!", emoji: "⭐" }
+                ],
+                questions: [
+                    { question: "من هو بطل قصتنا؟", options: ["يوسف", "محمد", "عيسى", "موسى"], correct: 0 },
+                    { question: "ماذا علّمنا الله أن نكون؟", options: ["صبورين", "كسالى", "غاضبين", "أنانيين"], correct: 0 },
+                    { question: "ماذا يكافئ الله المؤمنين الصادقين؟", options: ["النعم والخير", "لا شيء", "العقاب", "النسيان"], correct: 0 }
+                ]
+            }
+        ];
+
+        const games = [
+            {
+                id: 1,
+                title: "ترتيب الآيات",
+                emoji: "📝",
+                color: "sky",
+                questions: [
+                    { question: "رتّب: بسم الله الرحمن", options: ["بسم", "الله", "الرحمن", "الرحيم"], correct: 0 },
+                    { question: "ما هي أول سورة في القرآن؟", options: ["الفاتحة", "البقرة", "الإخلاص", "الناس"], correct: 0 },
+                    { question: "كم عدد أركان الإسلام؟", options: ["5", "4", "6", "3"], correct: 0 }
+                ]
+            },
+            {
+                id: 2,
+                title: "مطابقة الكلمات",
+                emoji: "🎯",
+                color: "mint",
+                questions: [
+                    { question: "ما معنى كلمة 'الصبر'؟", options: ["التحمل عند الشدة", "الفرح", "الغضب", "النوم"], correct: 0 },
+                    { question: "ما معنى كلمة 'الشكر'؟", options: ["الحمد لله", "الطلب", "البكاء", "الصمت"], correct: 0 },
+                    { question: "ما معنى كلمة 'الإحسان'؟", options: ["إتقان العمل", "الكسل", "الإهمال", "السرعة"], correct: 0 }
+                ]
+            },
+            {
+                id: 3,
+                title: "هل تعلم؟",
+                emoji: "❓",
+                color: "yellow",
+                questions: [
+                    { question: "ما هو أول شهر في السنة الهجرية؟", options: ["محرم", "رمضان", "شعبان", "رجب"], correct: 0 },
+                    { question: "كم عدد أيام الأسبوع؟", options: ["7", "5", "6", "8"], correct: 0 },
+                    { question: "ما اسم المَلَك الذي كان ينزل بالوحي؟", options: ["جبريل", "ميكائيل", "إسرافيل", "مالك"], correct: 0 }
+                ]
+            }
+        ];
+
+        const prayerSteps = [
+            { id: 1, title: "الوضوء", emoji: "💧", description: "توضأ قبل الصلاة" },
+            { id: 2, title: "تكبيرة الإحرام", emoji: "🙌", description: "ارفع يديك وقل الله أكبر" },
+            { id: 3, title: "قراءة الفاتحة", emoji: "📖", description: "اقرأ سورة الفاتحة" },
+            { id: 4, title: "الركوع", emoji: "🙇", description: "انحنِ وقل سبحان ربي العظيم" },
+            { id: 5, title: "السجود", emoji: "🧎", description: "اسجد وقل سبحان ربي الأعلى" },
+            { id: 6, title: "التشهد", emoji: "🪑", description: "اجلس وقل التشهد" },
+            { id: 7, title: "التسليم", emoji: "👋", description: "أدر رأسك يميناً وشمالاً" }
+        ];
+
+        const surahs = [
+            {
+                id: 1,
+                name: "الفاتحة",
+                arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾",
+                translation: "الحمد لله رب العالمين",
+                color: "sky"
+            },
+            {
+                id: 2,
+                name: "الإخلاص",
+                arabic: "قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾",
+                translation: "قل هو الله أحد، الله الصمد، لم يلد ولم يولد",
+                color: "mint"
+            },
+            {
+                id: 3,
+                name: "الناس",
+                arabic: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿١﴾ مَلِكِ النَّاسِ ﴿٢﴾ إِلَٰهِ النَّاسِ ﴿٣﴾",
+                translation: "قل أعوذ برب الناس، ملك الناس، إله الناس",
+                color: "purple"
+            }
+        ];
+
+        // State
+        let childName = "";
+        let currentPage = "home";
+        let currentStory = null;
+        let currentStoryPage = 0;
+        let currentGame = null;
+        let currentGameQuestion = 0;
+        let gameScore = 0;
+        let selectedAnswer = null;
+        let prayerMode = "view";
+        let currentPrayerStep = 0;
+        let userOrder = [];
+        let isCorrect = null;
+        let currentSurah = null;
+
+        // DOM Elements
+        const welcomeScreen = document.getElementById("welcomeScreen");
+        const mainApp = document.getElementById("mainApp");
+        const bottomNav = document.getElementById("bottomNav");
+        const childNameInput = document.getElementById("childNameInput");
+        const startBtn = document.getElementById("startBtn");
+
+        // Initialize
+        childNameInput.addEventListener("input", () => {
+            startBtn.disabled = !childNameInput.value.trim();
+        });
+
+        startBtn.addEventListener("click", () => {
+            childName = childNameInput.value.trim();
+            welcomeScreen.classList.add("hidden");
+            mainApp.classList.remove("hidden");
+            bottomNav.classList.remove("hidden");
+            document.getElementById("greeting").textContent = `مرحباً ${childName}! 👋`;
+        });
+
+        // Navigation
+        function showPage(page) {
+            currentPage = page;
+            const pages = ["homePage", "storiesPage", "storyView", "questionsPage", "gamesPage", "gameView", "gameResult", "prayerPage", "quranPage", "surahView", "achievementsPage"];
+            pages.forEach(p => document.getElementById(p).classList.add("hidden"));
+
+            // Update nav
+            document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+            const navMap = { home: 0, stories: 1, games: 2, achievements: 3 };
+            if (navMap[page] !== undefined) {
+                document.querySelectorAll(".nav-item")[navMap[page]].classList.add("active");
+            }
+
+            switch(page) {
+                case "home":
+                    document.getElementById("homePage").classList.remove("hidden");
+                    break;
+                case "stories":
+                    renderStoriesList();
+                    document.getElementById("storiesPage").classList.remove("hidden");
+                    break;
+                case "storyView":
+                    document.getElementById("storyView").classList.remove("hidden");
+                    break;
+                case "questions":
+                    renderQuestions();
+                    document.getElementById("questionsPage").classList.remove("hidden");
+                    break;
+                case "games":
+                    renderGamesList();
+                    document.getElementById("gamesPage").classList.remove("hidden");
+                    break;
+                case "gameView":
+                    document.getElementById("gameView").classList.remove("hidden");
+                    break;
+                case "gameResult":
+                    document.getElementById("gameResult").classList.remove("hidden");
+                    break;
+                case "prayer":
+                    renderPrayer();
+                    document.getElementById("prayerPage").classList.remove("hidden");
+                    break;
+                case "quran":
+                    renderQuran();
+                    document.getElementById("quranPage").classList.remove("hidden");
+                    break;
+                case "surahView":
+                    document.getElementById("surahView").classList.remove("hidden");
+                    break;
+                case "achievements":
+                    document.getElementById("achievementsPage").classList.remove("hidden");
+                    break;
+            }
+        }
+
+        // Stories
+        function renderStoriesList() {
+            const container = document.getElementById("storiesList");
+            container.innerHTML = stories.map(story => `
+                <div class="card card-border ${story.color}" onclick="openStory(${story.id})">
+                    <div class="card-content">
+                        <div class="card-icon ${story.color}">${story.emoji}</div>
+                        <div class="card-text">
+                            <div class="card-title">${story.title}</div>
+                            <div class="card-desc">تعلّم قصة ${story.prophet} بأسلوب ممتع</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function openStory(id) {
+            currentStory = stories.find(s => s.id === id);
+            currentStoryPage = 0;
+            document.getElementById("storyTitle").textContent = currentStory.title;
+            document.getElementById("storyHeader").className = `header ${currentStory.color}`;
+            renderStoryPage();
+            showPage("storyView");
+        }
+
+        function renderStoryPage() {
+            const page = currentStory.pages[currentStoryPage];
+            document.getElementById("storyEmoji").textContent = page.emoji;
+            document.getElementById("storyText").textContent = page.text;
+
+            const dotsContainer = document.getElementById("storyDots");
+            dotsContainer.innerHTML = currentStory.pages.map((_, i) =>
+                `<div class="dot ${i === currentStoryPage ? "active" : ""}"></div>`
+            ).join("");
+
+            document.getElementById("prevBtn").style.visibility = currentStoryPage === 0 ? "hidden" : "visible";
+            document.getElementById("nextBtn").textContent = currentStoryPage === currentStory.pages.length - 1 ? "اختبر نفسك! 🎯" : "التالي";
+        }
+
+        document.getElementById("prevBtn").addEventListener("click", () => {
+            if (currentStoryPage > 0) {
+                currentStoryPage--;
+                renderStoryPage();
+            }
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            if (currentStoryPage < currentStory.pages.length - 1) {
+                currentStoryPage++;
+                renderStoryPage();
+            } else {
+                showPage("questions");
+            }
+        });
+
+        // Questions
+        function renderQuestions() {
+            const container = document.getElementById("questionsList");
+            container.innerHTML = currentStory.questions.map((q, qIndex) => `
+                <div class="question-card">
+                    <h3 class="question-title">${q.question}</h3>
+                    <div class="options-grid">
+                        ${q.options.map((option, oIndex) => `
+                            <button class="option-btn" onclick="answerQuestion(${qIndex}, ${oIndex})">${option}</button>
+                        `).join("")}
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        let questionScore = 0;
+        function answerQuestion(qIndex, oIndex) {
+            const q = currentStory.questions[qIndex];
+            const buttons = document.querySelectorAll("#questionsList .question-card")[qIndex].querySelectorAll(".option-btn");
+            buttons.forEach((btn, i) => {
+                if (i === q.correct) btn.classList.add("correct");
+                else if (i === oIndex) btn.classList.add("wrong");
+                btn.disabled = true;
+            });
+            if (oIndex === q.correct) questionScore++;
+        }
+
+        // Games
+        function renderGamesList() {
+            const container = document.getElementById("gamesList");
+            container.innerHTML = games.map(game => `
+                <div class="card card-border ${game.color}" onclick="openGame(${game.id})">
+                    <div class="card-content">
+                        <div class="card-icon ${game.color}">${game.emoji}</div>
+                        <div class="card-text">
+                            <div class="card-title">${game.title}</div>
+                            <div class="card-desc">العب وتعلّم معنا!</div>
+                        </div>
+                        <div class="card-arrow">←</div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function openGame(id) {
+            currentGame = games.find(g => g.id === id);
+            currentGameQuestion = 0;
+            gameScore = 0;
+            selectedAnswer = null;
+            document.getElementById("gameTitle").textContent = currentGame.title;
+            document.getElementById("gameHeader").className = `header ${currentGame.color}`;
+            renderGameQuestion();
+            showPage("gameView");
+        }
+
+        function renderGameQuestion() {
+            const q = currentGame.questions[currentGameQuestion];
+            document.getElementById("gameQuestion").textContent = q.question;
+            document.getElementById("gameProgress").textContent = `السؤال ${currentGameQuestion + 1} من ${currentGame.questions.length}`;
+            document.getElementById("gameProgressBar").style.width = `${((currentGameQuestion + 1) / currentGame.questions.length) * 100}%`;
+            document.getElementById("gameScore").textContent = `⭐ ${gameScore}`;
+
+            const optionsContainer = document.getElementById("gameOptions");
+            optionsContainer.innerHTML = q.options.map((option, oIndex) => `
+                <button class="option-btn" onclick="answerGameQuestion(${oIndex})">${option}</button>
+            `).join("");
+        }
+
+        function answerGameQuestion(oIndex) {
+            if (selectedAnswer !== null) return;
+            selectedAnswer = oIndex;
+
+            const q = currentGame.questions[currentGameQuestion];
+            const buttons = document.querySelectorAll("#gameOptions .option-btn");
+            buttons.forEach((btn, i) => {
+                if (i === q.correct) btn.classList.add("correct");
+                else if (i === oIndex) btn.classList.add("wrong");
+                btn.disabled = true;
+            });
+
+            if (oIndex === q.correct) gameScore++;
+
+            setTimeout(() => {
+                if (currentGameQuestion < currentGame.questions.length - 1) {
+                    currentGameQuestion++;
+                    selectedAnswer = null;
+                    renderGameQuestion();
+                } else {
+                    showGameResult();
+                }
+            }, 1000);
+        }
+
+        function showGameResult() {
+            const total = currentGame.questions.length;
+            const emoji = gameScore === total ? "🏆" : gameScore >= total / 2 ? "⭐" : "💪";
+            const title = gameScore === total ? "ممتاز! أنت بطل!" : gameScore >= total / 2 ? "أحسنت!" : "حاول مرة أخرى!";
+
+            document.getElementById("resultEmoji").textContent = emoji;
+            document.getElementById("resultTitle").textContent = title;
+            document.getElementById("resultText").textContent = `أجبت بشكل صحيح على ${gameScore} من ${total} أسئلة`;
+            document.getElementById("resultStars").innerHTML = Array.from({ length: total }).map((_, i) =>
+                `<span>${i < gameScore ? "⭐" : "☆"}</span>`
+            ).join("");
+
+            showPage("gameResult");
+        }
+
+        // Prayer
+        function renderPrayer() {
+            const container = document.getElementById("prayerContent");
+            if (prayerMode === "view") {
+                container.innerHTML = `
+                    <div class="card" style="margin-bottom: 16px;">
+                        <h3 style="font-weight: 700; margin-bottom: 16px;">خطوات الصلاة:</h3>
+                        ${prayerSteps.map((step, index) => `
+                            <div class="prayer-step ${index === currentPrayerStep ? "active" : ""}">
+                                <div class="step-number">${step.id}</div>
+                                <div class="step-emoji">${step.emoji}</div>
+                                <div>
+                                    <div class="step-title">${step.title}</div>
+                                    <div class="step-desc">${step.description}</div>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <button class="btn" style="background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="prevPrayerStep()" ${currentPrayerStep === 0 ? "disabled" : ""}>السابق</button>
+                        <span style="color: rgba(45,55,72,0.6);">${currentPrayerStep + 1} / ${prayerSteps.length}</span>
+                        ${currentPrayerStep < prayerSteps.length - 1 ? `
+                            <button class="btn purple" onclick="nextPrayerStep()">التالي</button>
+                        ` : `
+                            <button class="btn mint" onclick="startPrayerExercise()">جرّب بنفسك! 🎯</button>
+                        `}
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="card" style="margin-bottom: 16px;">
+                        <h3 style="font-weight: 700; margin-bottom: 8px;">🎯 رتّب خطوات الصلاة</h3>
+                        <p style="color: rgba(45,55,72,0.6); font-size: 0.875rem; margin-bottom: 16px;">اضغط على الخطوات بالترتيب الصحيح</p>
+                        ${isCorrect !== null ? `
+                            <div style="padding: 16px; border-radius: 16px; margin-bottom: 16px; text-align: center; font-weight: 700; ${isCorrect ? "background: rgba(102,187,106,0.1); color: var(--mint-green);" : "background: rgba(239,83,80,0.05); color: #ef5350;"}">
+                                ${isCorrect ? "🎉 أحسنت! الترتيب صحيح!" : "❌ حاول مرة أخرى"}
+                            </div>
+                        ` : ""}
+                        ${prayerSteps.map(step => `
+                            <div class="prayer-step ${userOrder.includes(step.id) ? "selected" : ""}" onclick="togglePrayerStep(${step.id})">
+                                <div class="step-number" style="${userOrder.includes(step.id) ? "background: var(--mint-green);" : ""}">
+                                    ${userOrder.includes(step.id) ? userOrder.indexOf(step.id) + 1 : step.id}
+                                </div>
+                                <div class="step-emoji">${step.emoji}</div>
+                                <span style="font-weight: 500;">${step.title}</span>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn" style="background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="exitPrayerExercise()">→ العودة</button>
+                        <button class="btn mint" onclick="checkPrayerOrder()" ${userOrder.length !== prayerSteps.length ? "disabled" : ""}>تحقق ✓</button>
+                    </div>
+                `;
+            }
+        }
+
+        function prevPrayerStep() {
+            if (currentPrayerStep > 0) {
+                currentPrayerStep--;
+                renderPrayer();
+            }
+        }
+
+        function nextPrayerStep() {
+            if (currentPrayerStep < prayerSteps.length - 1) {
+                currentPrayerStep++;
+                renderPrayer();
+            }
+        }
+
+        function startPrayerExercise() {
+            prayerMode = "exercise";
+            userOrder = [];
+            isCorrect = null;
+            renderPrayer();
+        }
+
+        function exitPrayerExercise() {
+            prayerMode = "view";
+            userOrder = [];
+            isCorrect = null;
+            renderPrayer();
+        }
+
+        function togglePrayerStep(stepId) {
+            if (userOrder.includes(stepId)) {
+                userOrder = userOrder.filter(id => id !== stepId);
+            } else {
+                userOrder.push(stepId);
+            }
+            renderPrayer();
+        }
+
+        function checkPrayerOrder() {
+            isCorrect = userOrder.every((id, index) => id === index + 1);
+            renderPrayer();
+            if (isCorrect) {
+                setTimeout(() => {
+                    prayerMode = "view";
+                    userOrder = [];
+                    isCorrect = null;
+                    renderPrayer();
+                }, 2000);
+            }
+        }
+
+        // Quran
+        function renderQuran() {
+            const container = document.getElementById("quranContent");
+            container.innerHTML = `
+                <div class="word-day">
+                    <h3 style="font-weight: 700; margin-bottom: 12px;">🌟 كلمة اليوم</h3>
+                    <div class="word-card">
+                        <div class="word-title">الصبر</div>
+                        <div class="word-meaning">التحمل عند الشدة والثبات على الحق</div>
+                        <div class="word-example">مثال: كان النبي محمد ﷺ صبوراً دائماً</div>
+                    </div>
+                </div>
+                <h3 style="font-weight: 700; margin-bottom: 16px;">سور مختارة للأطفال:</h3>
+                ${surahs.map(surah => `
+                    <div class="surah-card" onclick="openSurah(${surah.id})">
+                        <div class="card-content">
+                            <div class="card-icon ${surah.color}">📖</div>
+                            <div class="card-text">
+                                <div class="card-title">سورة ${surah.name}</div>
+                                <div class="card-desc">${surah.translation}</div>
+                            </div>
+                            <div class="card-arrow">←</div>
+                        </div>
+                    </div>
+                `).join("")}
+            `;
+        }
+
+        function openSurah(id) {
+            currentSurah = surahs.find(s => s.id === id);
+            document.getElementById("surahTitle").textContent = `📚 ${currentSurah.name}`;
+            document.getElementById("surahHeader").className = `header ${currentSurah.color}`;
+            document.getElementById("surahArabic").textContent = currentSurah.arabic;
+            document.getElementById("surahTranslation").textContent = currentSurah.translation;
+            showPage("surahView");
+        }
+    </script>
+    <script>
+        // Register Service Worker (only in production, not in dev/preview)
+        if ('serviceWorker' in navigator) {
+            // Only register when served over HTTP/HTTPS (not file://)
+            if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                // Don't register in iframe (preview)
+                if (window.self === window.top) {
+                    window.addEventListener('load', () => {
+                        navigator.serviceWorker.register('sw.js').catch(err => {
+                            console.log('SW registration failed:', err);
+                        });
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
